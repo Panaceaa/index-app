@@ -1,4 +1,4 @@
-import { colors } from '@/lib/styles/colors'
+import { colors } from 'styles/colors'
 
 import { InfoOutlineIcon } from '@chakra-ui/icons'
 import { Flex, Link, Text, Tooltip } from '@chakra-ui/react'

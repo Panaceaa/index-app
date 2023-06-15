@@ -5,23 +5,20 @@ import debounce from 'lodash/debounce'
 import { Box, useDisclosure } from '@chakra-ui/react'
 import { BigNumber } from '@ethersproject/bignumber'
 
-import { MAINNET, OPTIMISM, POLYGON } from '@/constants/chains'
-import { Token } from '@/constants/tokens'
-import { useApproval } from '@/lib/hooks/useApproval'
-import { useFlashMintQuote } from '@/lib/hooks/useFlashMintQuote'
-import { useNetwork } from '@/lib/hooks/useNetwork'
-import { useTradeTokenLists } from '@/lib/hooks/useTradeTokenLists'
-import { useWallet } from '@/lib/hooks/useWallet'
-import { useBalanceData } from '@/lib/providers/Balances'
-import { useSlippage } from '@/lib/providers/Slippage'
-import { displayFromWei, isValidTokenInput, toWei } from '@/lib/utils'
-import { getBlockExplorerContractUrl } from '@/lib/utils/blockExplorer'
-import {
-  getContractForQuote,
-  getQuoteAmount,
-} from '@/lib/utils/flashMint/quotes'
-import { selectSlippage } from '@/lib/utils/slippage'
-import { getNativeToken, isNotTradableToken } from '@/lib/utils/tokens'
+import { MAINNET, OPTIMISM, POLYGON } from 'constants/chains'
+import { Token } from 'constants/tokens'
+import { useApproval } from 'hooks/useApproval'
+import { useFlashMintQuote } from 'hooks/useFlashMintQuote'
+import { useNetwork } from 'hooks/useNetwork'
+import { useTradeTokenLists } from 'hooks/useTradeTokenLists'
+import { useWallet } from 'hooks/useWallet'
+import { useBalanceData } from 'providers/Balances'
+import { useSlippage } from 'providers/Slippage'
+import { displayFromWei, isValidTokenInput, toWei } from 'utils'
+import { getBlockExplorerContractUrl } from 'utils/blockExplorer'
+import { getContractForQuote, getQuoteAmount } from 'utils/flashMint/quotes'
+import { selectSlippage } from 'utils/slippage'
+import { getNativeToken, isNotTradableToken } from 'utils/tokens'
 
 import { TradeButtonContainer } from '../_shared/footer'
 import {
@@ -70,7 +67,6 @@ const FlashMint = (props: QuickTradeProps) => {
   const { getTokenBalance } = useBalanceData()
   const { slippage } = useSlippage()
 
-  const [buttonLabel, setButtonLabel] = useState('')
   const [contractAddress, setContractAddress] = useState<string | null>(null)
   const [indexTokenAmountFormatted, setIndexTokenAmountFormatted] =
     useState('0.0')
@@ -91,6 +87,7 @@ const FlashMint = (props: QuickTradeProps) => {
     isApproved: isApprovedIndexToken,
     isApproving: isApprovingIndexToken,
   } = useApproval(indexToken, contractAddress, indexTokenAmountWei)
+  
   const {
     approve: approveInputOutputToken,
     isApproved: isApprovedInputOutputToken,
@@ -179,63 +176,49 @@ const FlashMint = (props: QuickTradeProps) => {
    * Get the correct trade button label according to different states
    * @returns string label for trade button
    */
-  const getTradeButtonLabel = useEffect(() => {
-    const label = () => {
-      if (!address) return 'Connect Wallet'
-      if (!isSupportedNetwork) return 'Wrong Network'
+  const getTradeButtonLabel = () => {
+    if (!address) return 'Connect Wallet'
+    if (!isSupportedNetwork) return 'Wrong Network'
 
-      if (isNotTradableToken(props.singleToken, chainId)) {
-        let chainName = 'this Network'
-        switch (chainId) {
-          case MAINNET.chainId:
-            chainName = 'Mainnet'
-            break
-          case POLYGON.chainId:
-            chainName = 'Polygon'
-            break
-          case OPTIMISM.chainId:
-            chainName = 'Optimism'
-            break
-        }
-
-        return `Not Available on ${chainName}`
+    if (isNotTradableToken(props.singleToken, chainId)) {
+      let chainName = 'this Network'
+      switch (chainId) {
+        case MAINNET.chainId:
+          chainName = 'Mainnet'
+          break
+        case POLYGON.chainId:
+          chainName = 'Polygon'
+          break
+        case OPTIMISM.chainId:
+          chainName = 'Optimism'
+          break
       }
 
-      if (indexTokenAmount === '0') {
-        return 'Enter an amount'
-      }
-
-      if (isMinting && hasInsufficientFundsInputOutputToken) {
-        return 'Insufficient funds'
-      }
-
-      if (!isMinting && hasInsufficientFundsIndexToken) {
-        return 'Insufficient funds'
-      }
-
-      if (isApproving()) {
-        return 'Approving...'
-      }
-
-      if (!isApproved()) {
-        return 'Approve Token'
-      }
-
-      return 'Review Transaction'
+      return `Not Available on ${chainName}`
     }
-    setButtonLabel(label())
-  }, [
-    address,
-    isApproved,
-    isApproving,
-    isMinting,
-    hasInsufficientFundsIndexToken,
-    hasInsufficientFundsInputOutputToken,
-    indexTokenAmount,
-    chainId,
-    props.singleToken,
-    isSupportedNetwork,
-  ])
+
+    if (indexTokenAmount === '0') {
+      return 'Enter an amount'
+    }
+
+    if (isMinting && hasInsufficientFundsInputOutputToken) {
+      return 'Insufficient funds'
+    }
+
+    if (!isMinting && hasInsufficientFundsIndexToken) {
+      return 'Insufficient funds'
+    }
+
+    if (isApproving()) {
+      return 'Approving...'
+    }
+
+    if (!isApproved()) {
+      return 'Approve Token'
+    }
+
+    return 'Review Transaction'
+  }
 
   const getTransactionReview = (): TransactionReview | null => {
     if (isFetchingQuote) return null
@@ -332,6 +315,7 @@ const FlashMint = (props: QuickTradeProps) => {
   )
 
   // TradeButtonContainer
+  const buttonLabel = getTradeButtonLabel()
   const isButtonDisabled = getTradeButtonDisabledState()
   const isLoading = isApproving() || isFetchingQuote
   const contractBlockExplorerUrl =

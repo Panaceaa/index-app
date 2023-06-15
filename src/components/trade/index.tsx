@@ -1,13 +1,13 @@
 import { useState } from 'react'
 
-import { colors, useColorStyles, useICColorMode } from '../../lib/styles/colors'
+import { colors, useColorStyles, useICColorMode } from 'styles/colors'
 
 import { Flex, Text } from '@chakra-ui/react'
 
-import { MoneyMarketIndex } from '../../constants/tokens'
-import { useNetwork } from '../../lib/hooks/useNetwork'
-import { SlippageProvider, useSlippage } from '../../lib/providers/Slippage'
-import { isTokenAvailableForFlashMint } from '../../lib/utils/tokens'
+import { MoneyMarketIndex } from 'constants/tokens'
+import { useNetwork } from 'hooks/useNetwork'
+import { SlippageProvider, useSlippage } from 'providers/Slippage'
+import { isTokenAvailableForFlashMint } from 'utils/tokens'
 
 import { QuickTradeSettingsPopover } from './_shared/QuickTradeSettingsPopover'
 import FlashMint from './flashmint'
@@ -34,7 +34,7 @@ const QuickTradeContainer = (props: QuickTradeProps) => {
     ? isTokenAvailableForFlashMint(props.singleToken, chainId)
     : // Currently no FlashMintable tokens on Polygon
     chainId === 137
-    ? false
+    ? true
     : true
   shouldShowFlashMintOption = isMMIT ? true : shouldShowFlashMintOption
 

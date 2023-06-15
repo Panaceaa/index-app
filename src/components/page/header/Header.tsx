@@ -1,14 +1,19 @@
-import { useICColorMode } from '@/lib/styles/colors'
+import { useICColorMode } from 'styles/colors'
 
-import { Flex, Link, Spacer } from '@chakra-ui/react'
+import { Flex, Image, Link } from '@chakra-ui/react'
+import { useColorMode } from '@chakra-ui/system'
 
-import { IndexLogoBlack, IndexLogoWhite } from '@/lib/utils/assets'
+import {
+  IndexLogoBlack,
+  IndexLogoFullBlack,
+  IndexLogoFullWhite,
+  IndexLogoWhite,
+} from 'assets'
 
 import Navigation from './Navigation'
 
 const Header = () => {
   const { isDarkMode } = useICColorMode()
-  // TODO: w/ design changes
   const backgroundColor = isDarkMode
     ? 'rgba(15, 23, 23, 0.6)'
     : 'rgba(252, 255, 255, 0.82)'
@@ -16,8 +21,8 @@ const Header = () => {
   return (
     <Flex
       as='header'
-      // backgroundColor={backgroundColor}
-      backdropFilter='saturate(120%) blur(5px)'
+      backgroundColor={backgroundColor}
+      backdropFilter='saturate(180%) blur(5px)'
       p={[
         '16px 16px 16px 24px',
         null,
@@ -30,21 +35,18 @@ const Header = () => {
       zIndex='2'
     >
       <Flex align='center' justifyContent='space-between' w='100%'>
-        <Flex marginRight={['', '', '', '20px']}>
-          <Link
-            href='https://indexcoop.com/'
-            _hover={{
-              textDecoration: 'none',
-            }}
-            flexGrow={1}
-          >
+        <Link
+          href='https://indexcoop.com/'
+          _hover={{
+            textDecoration: 'none',
+          }}
+          flexGrow={1}
+        >
+          <Flex marginRight={['', '', '', '20px']}>
             <Logo />
-          </Link>
-        </Flex>
-        <Spacer />
-        <Flex align='center' justifyContent={'flex-end'}>
-          <Navigation />
-        </Flex>
+          </Flex>
+        </Link>
+        <Navigation />
       </Flex>
     </Flex>
   )
@@ -52,8 +54,14 @@ const Header = () => {
 
 const Logo = () => {
   const { isDarkMode } = useICColorMode()
+
+  if (window.innerWidth > 1350) {
+    const logo = isDarkMode ? IndexLogoFullWhite : IndexLogoFullBlack
+    return <img alt='Index Coop Logo' src={logo} height='30px' width='130px' />
+  }
+
   const logo = isDarkMode ? IndexLogoWhite : IndexLogoBlack
-  return <img alt='Index Coop Logo' src={logo} height='36px' width='36px' />
+  return <img alt='Index Coop Logo' src={logo} height='30px' width='30px' />
 }
 
 export default Header

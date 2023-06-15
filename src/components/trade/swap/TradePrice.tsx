@@ -1,4 +1,4 @@
-import { useColorStyles } from '@/lib/styles/colors'
+import { useColorStyles } from 'styles/colors'
 
 import { Flex, Text } from '@chakra-ui/react'
 

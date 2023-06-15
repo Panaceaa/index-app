@@ -3,13 +3,15 @@ import {
   dsethLogo,
   fixedDaiLogo,
   fixedUsdcLogo,
+  gmiLogo,
   gtcEthLogo,
   icethLogo,
   indexLogo,
   mmiLogo,
   wseth2Logo,
-} from '@/lib/utils/assets'
-import { TokenContextKeys } from '@/lib/providers/MarketData'
+  b4bLogo,
+} from 'assets'
+import { TokenContextKeys } from 'providers/MarketData'
 
 import { MAINNET } from './chains'
 
@@ -46,71 +48,23 @@ export interface Token {
 /**
  * Indices
  */
-export const FIXED_DAI: Token = {
-  name: 'Fixed Rate Yield Index (DAI)',
-  symbol: 'FIXED-DAI',
-  image: fixedDaiLogo,
-  address: '0x015558c3aB97c9e5a9c8c437C71Bb498B2e5afB3',
-  optimismAddress: undefined,
-  polygonAddress: undefined,
-  decimals: 18,
-  url: '',
-  coingeckoId: '',
-  fees: undefined,
-  isDangerous: false,
-  indexTypes: [],
-}
 
-export const FIXED_USDC: Token = {
-  name: 'Fixed Rate Yield Index (USDC)',
-  symbol: 'FIXED-USDC',
-  image: fixedUsdcLogo,
-  address: '0xFB4D3b07aA16eE563Ea7C1f3202959448458e290',
-  optimismAddress: undefined,
-  polygonAddress: undefined,
-  decimals: 18,
-  url: '',
-  coingeckoId: '',
-  fees: undefined,
-  isDangerous: false,
-  indexTypes: [],
-}
-
-export const DefiPulseIndex: Token = {
-  name: 'DeFi Pulse Index',
-  symbol: 'DPI',
-  image: dpiTokenImage,
-  address: '0x1494CA1F11D487c2bBe4543E90080AeBa4BA3C2b',
-  polygonAddress: '0x85955046DF4668e1DD369D2DE9f3AEB98DD2A369',
+export const B4BIndex: Token = {
+  name: 'BLOCK4BLOCK',
+  symbol: 'B4B',
+  image: b4bLogo,
+  address: '0x7b76b274dea7abe248ff764fdc11cbb9ba3585fb',
+  polygonAddress: '0x56a15aaa0f88338fceb5aec28aba249acc75f185',
   optimismAddress: undefined,
   decimals: 18,
-  url: 'dpi',
+  url: 'b4b',
   coingeckoId: 'defipulse-index',
-  tokenContextKey: 'dpi',
+  tokenContextKey: 'b4b',
   fees: {
-    streamingFee: '0.95%',
+    streamingFee: '1.5%',
   },
   isDangerous: false,
   indexTypes: [IndexType.thematic],
-  defaultChain: MAINNET.chainId,
-}
-
-export const DiversifiedStakedETHIndex: Token = {
-  name: 'Diversified Staked ETH Index',
-  symbol: 'dsETH',
-  image: dsethLogo,
-  address: '0x341c05c0E9b33C0E38d64de76516b2Ce970bB3BE',
-  polygonAddress: undefined,
-  optimismAddress: undefined,
-  decimals: 18,
-  url: 'dseth',
-  coingeckoId: 'diversified-staked-eth',
-  tokenContextKey: 'dseth',
-  fees: {
-    streamingFee: '0.25%',
-  },
-  isDangerous: false,
-  indexTypes: [IndexType.yield],
   defaultChain: MAINNET.chainId,
 }
 
@@ -129,166 +83,6 @@ export const IndexToken: Token = {
   indexTypes: [],
   defaultChain: MAINNET.chainId,
 }
-
-export const Ethereum2xFlexibleLeverageIndex: Token = {
-  name: 'Ethereum 2x Flexible Leverage Index',
-  symbol: 'ETH2x-FLI',
-  address: '0xAa6E8127831c9DE45ae56bB1b0d4D4Da6e5665BD',
-  polygonAddress: undefined,
-  optimismAddress: undefined,
-  decimals: 18,
-  url: 'ethfli',
-  image: 'https://set-core.s3.amazonaws.com/img/portfolios/eth2x_fli.svg',
-  coingeckoId: 'eth-2x-flexible-leverage-index',
-  tokenContextKey: 'ethfli',
-  fees: {
-    streamingFee: '1.95%',
-  },
-  isDangerous: true,
-  indexTypes: [IndexType.leverage],
-  defaultChain: MAINNET.chainId,
-}
-
-export const MetaverseIndex: Token = {
-  name: 'Metaverse Index',
-  symbol: 'MVI',
-  address: '0x72e364F2ABdC788b7E918bc238B21f109Cd634D7',
-  polygonAddress: '0xfe712251173A2cd5F5bE2B46Bb528328EA3565E1',
-  optimismAddress: undefined,
-  decimals: 18,
-  url: 'mvi',
-  image: 'https://set-core.s3.amazonaws.com/img/portfolios/mvi.svg',
-  coingeckoId: 'metaverse-index',
-  tokenContextKey: 'mvi',
-  fees: {
-    streamingFee: '0.95%',
-  },
-  isDangerous: false,
-  indexTypes: [IndexType.thematic],
-  defaultChain: MAINNET.chainId,
-}
-
-export const Bitcoin2xFlexibleLeverageIndex: Token = {
-  name: 'Bitcoin 2x Flexible Leverage Index',
-  symbol: 'BTC2x-FLI',
-  address: '0x0B498ff89709d3838a063f1dFA463091F9801c2b',
-  polygonAddress: undefined,
-  optimismAddress: undefined,
-  decimals: 18,
-  url: 'btcfli',
-  image: 'https://set-core.s3.amazonaws.com/img/portfolios/fli_btc.svg',
-  coingeckoId: 'btc-2x-flexible-leverage-index',
-  tokenContextKey: 'btcfli',
-  fees: {
-    streamingFee: '1.95%',
-  },
-  isDangerous: true,
-  indexTypes: [IndexType.leverage],
-  defaultChain: MAINNET.chainId,
-}
-
-export const BedIndex: Token = {
-  name: 'Bankless BED Index',
-  symbol: 'BED',
-  address: '0x2aF1dF3AB0ab157e1E2Ad8F88A7D04fbea0c7dc6',
-  polygonAddress: undefined,
-  optimismAddress: undefined,
-  decimals: 18,
-  url: 'bed',
-  image: bedBorderLogo,
-  coingeckoId: 'bankless-bed-index',
-  tokenContextKey: 'bed',
-  fees: {
-    streamingFee: '0.25%',
-  },
-  isDangerous: false,
-  indexTypes: [IndexType.thematic],
-  defaultChain: MAINNET.chainId,
-}
-
-export const GitcoinStakedETHIndex: Token = {
-  name: 'Gitcoin Staked ETH Index',
-  symbol: 'gtcETH',
-  image: gtcEthLogo,
-  address: '0x36c833Eed0D376f75D1ff9dFDeE260191336065e',
-  polygonAddress: undefined,
-  optimismAddress: undefined,
-  decimals: 18,
-  url: 'gtceth',
-  coingeckoId: 'gitcoin-staked-eth-index',
-  tokenContextKey: 'gtceth',
-  fees: {
-    streamingFee: '2.0%',
-  },
-  isDangerous: false,
-  indexTypes: [IndexType.yield],
-  defaultChain: MAINNET.chainId,
-}
-
-export const icETHIndex: Token = {
-  name: 'Interest Compounding ETH Index',
-  symbol: 'icETH',
-  address: '0x7C07F7aBe10CE8e33DC6C5aD68FE033085256A84',
-  polygonAddress: undefined,
-  optimismAddress: undefined,
-  decimals: 18,
-  url: 'iceth',
-  image: icethLogo,
-  coingeckoId: 'interest-compounding-eth-index',
-  tokenContextKey: 'iceth',
-  fees: {
-    streamingFee: '0.75%',
-    mintFee: '0.0%',
-    redeemFee: '0.0%',
-  },
-  isDangerous: true,
-  indexTypes: [IndexType.yield],
-  defaultChain: MAINNET.chainId,
-}
-
-export const MoneyMarketIndex: Token = {
-  name: 'Money Market Index Token',
-  symbol: 'icSMMT',
-  address: '0xc30FBa978743a43E736fc32FBeEd364b8A2039cD',
-  polygonAddress: undefined,
-  optimismAddress: undefined,
-  decimals: 18,
-  url: 'icsmmt',
-  image: mmiLogo,
-  coingeckoId: 'money-market-index',
-  tokenContextKey: 'mmi',
-  fees: {
-    streamingFee: '0.15%',
-    mintFee: '0.0%',
-    redeemFee: '0.0%',
-  },
-  isDangerous: true,
-  indexTypes: [IndexType.yield],
-  defaultChain: MAINNET.chainId,
-}
-
-/**
- * Other - IndexCoop
- */
-
-export const WSETH2: Token = {
-  name: 'wsETH2',
-  symbol: 'wsETH2',
-  image: wseth2Logo,
-  address: '0x5dA21D9e63F1EA13D34e48B7223bcc97e3ecD687',
-  polygonAddress: undefined,
-  optimismAddress: undefined,
-  decimals: 18,
-  url: '',
-  coingeckoId: 'wrapped-stakewise-seth2',
-  fees: undefined,
-  isDangerous: false,
-  indexTypes: [],
-}
-
-/**
- * Other
- */
 
 export const DAI: Token = {
   name: 'Dai',
@@ -338,46 +132,17 @@ export const MATIC: Token = {
   indexTypes: [],
 }
 
-export const RETH: Token = {
-  name: 'rETH',
-  symbol: 'rETH',
-  image: 'https://assets.coingecko.com/coins/images/20764/large/reth.png',
-  address: '0xae78736Cd615f374D3085123A210448E74Fc6393',
-  polygonAddress: undefined,
+export const WMATIC: Token = {
+  name: 'WMatic',
+  symbol: 'WMATIC',
+  image:
+    'https://assets.coingecko.com/coins/images/14073/small/matic.png?1628852392',
+  address: undefined,
+  polygonAddress: '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
   optimismAddress: undefined,
   decimals: 18,
   url: '',
-  coingeckoId: 'rocket-pool-eth',
-  fees: undefined,
-  isDangerous: false,
-  indexTypes: [],
-}
-
-export const SETH2: Token = {
-  name: 'sETH2',
-  symbol: 'sETH2',
-  image: 'https://assets.coingecko.com/coins/images/16569/large/emerald256.png',
-  address: '0xFe2e637202056d30016725477c5da089Ab0A043A',
-  polygonAddress: undefined,
-  optimismAddress: undefined,
-  decimals: 18,
-  url: '',
-  coingeckoId: 'seth2',
-  fees: undefined,
-  isDangerous: false,
-  indexTypes: [],
-}
-
-export const STETH: Token = {
-  name: 'stETH',
-  symbol: 'stETH',
-  image: 'https://assets.coingecko.com/coins/images/13442/large/steth_logo.png',
-  address: '0xae7ab96520de3a18e5e111b5eaab095312d7fe84',
-  polygonAddress: undefined,
-  optimismAddress: undefined,
-  decimals: 18,
-  url: '',
-  coingeckoId: 'staked-ether',
+  coingeckoId: 'matic-network',
   fees: undefined,
   isDangerous: false,
   indexTypes: [],
@@ -431,21 +196,6 @@ export const WETH: Token = {
   indexTypes: [],
 }
 
-export const WSTETH: Token = {
-  name: 'wstETH',
-  symbol: 'wstETH',
-  image: 'https://assets.coingecko.com/coins/images/18834/large/wstETH.png',
-  address: '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0',
-  polygonAddress: undefined,
-  optimismAddress: undefined,
-  decimals: 18,
-  url: '',
-  coingeckoId: 'wrapped-steth',
-  fees: undefined,
-  isDangerous: false,
-  indexTypes: [],
-}
-
 /**
  * Currencies
  */
@@ -455,15 +205,10 @@ export const currencies = [
   DAI,
   USDC,
   USDT,
-  RETH,
-  SETH2,
-  STETH,
   WETH,
-  WSETH2,
-  WSTETH,
 ]
 
-export const mainnetCurrencyTokens = [ETH, DAI, USDC, SETH2, STETH, WETH]
+export const mainnetCurrencyTokens = [ETH, DAI, USDC, WETH]
 
 export const polygonCurrencyTokens = [MATIC, DAI, USDC, WETH]
 
@@ -474,52 +219,28 @@ export const optimismCurrencyTokens = [USDC]
  * Lists
  */
 
-// Deprecated/rebalanced indicies will not work with FlashMintLeveraged any longer
-export const eligibleLeveragedExchangeIssuanceTokens = [
-  Bitcoin2xFlexibleLeverageIndex,
-  Ethereum2xFlexibleLeverageIndex,
-  icETHIndex,
-]
-
 const isDevEnv =
-  process.env.NEXT_PUBLIC_VERCEL_ENV === 'development' ||
-  process.env.NEXT_PUBLIC_VERCEL_ENV === 'index-app-staging'
+  process.env.REACT_APP_VERCEL_ENV === 'development' ||
+  process.env.REACT_APP_VERCEL_ENV === 'index-app-staging'
 // FIXED is not supposed to be released to the public yet, so we create a
 // separate list for dev/staging and production
 const indexNames = isDevEnv
   ? [
-      DiversifiedStakedETHIndex,
-      icETHIndex,
-      GitcoinStakedETHIndex,
-      MoneyMarketIndex,
-      FIXED_DAI,
-      FIXED_USDC,
-      DefiPulseIndex,
-      MetaverseIndex,
-      Ethereum2xFlexibleLeverageIndex,
-      Bitcoin2xFlexibleLeverageIndex,
-      BedIndex,
       IndexToken,
-      WSETH2,
+      B4BIndex,
     ]
   : [
-      DiversifiedStakedETHIndex,
-      icETHIndex,
-      GitcoinStakedETHIndex,
-      MoneyMarketIndex,
-      DefiPulseIndex,
-      MetaverseIndex,
-      Ethereum2xFlexibleLeverageIndex,
-      Bitcoin2xFlexibleLeverageIndex,
-      BedIndex,
       IndexToken,
+      B4BIndex,
     ]
 
 export const indexNamesMainnet = indexNames.filter(
-  (index) => index.address && index.symbol !== MoneyMarketIndex.symbol
+  (index) => index.address && index.symbol
 )
 export const indexNamesPolygon = indexNames.filter(
-  (index) => index.polygonAddress && index.symbol !== IndexToken.symbol // not available on Polygon
+  (index) =>
+    index.polygonAddress &&
+    index.symbol !== IndexToken.symbol // not available on Polygon
 )
 
 // FlashMint specific lists
@@ -530,17 +251,13 @@ export const flashMintIndexesMainnetRedeem = indexNames.filter(
 export const flashMintIndexesPolygon = indexNames.filter(
   (index) =>
     index.polygonAddress &&
-    index.symbol !== DefiPulseIndex.symbol &&
-    index.symbol !== IndexToken.symbol &&
-    index.symbol !== MetaverseIndex.symbol
+    index.symbol !== IndexToken.symbol
 )
 
 export const flashMintIndexesPolygonRedeem = indexNames.filter(
   (index) =>
     index.polygonAddress &&
-    index.symbol !== DefiPulseIndex.symbol &&
-    index.symbol !== IndexToken.symbol &&
-    index.symbol !== MetaverseIndex.symbol
+    index.symbol !== IndexToken.symbol
 )
 
 export default indexNames

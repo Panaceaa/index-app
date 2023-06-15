@@ -1,8 +1,8 @@
-import { colors, useColorStyles } from '@/lib/styles/colors'
+import { colors, useColorStyles } from 'styles/colors'
 
 import { Flex, Text } from '@chakra-ui/layout'
 
-import { addMEVProtectionChain } from '@/lib/utils/chains'
+import { addMEVProtectionChain } from 'utils/chains'
 
 const FlashbotsRpcMessage = () => {
   const { isDarkMode, styles } = useColorStyles()

@@ -1,4 +1,4 @@
-import { colors } from '@/lib/styles/colors'
+import { colors } from 'styles/colors'
 
 import { TradeDetailTokenPrices } from '../swap/TradeDetail'
 
