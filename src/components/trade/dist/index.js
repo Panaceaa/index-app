@@ -14,10 +14,9 @@ exports.__esModule = true;
 var react_1 = require("react");
 var colors_1 = require("styles/colors");
 var react_2 = require("@chakra-ui/react");
-var tokens_1 = require("constants/tokens");
 var useNetwork_1 = require("hooks/useNetwork");
 var Slippage_1 = require("providers/Slippage");
-var tokens_2 = require("utils/tokens");
+var tokens_1 = require("utils/tokens");
 var QuickTradeSettingsPopover_1 = require("./_shared/QuickTradeSettingsPopover");
 var flashmint_1 = require("./flashmint");
 var swap_1 = require("./swap");
@@ -27,14 +26,14 @@ var TradeType;
     TradeType[TradeType["swap"] = 1] = "swap";
 })(TradeType || (TradeType = {}));
 var QuickTradeContainer = function (props) {
-    var isMMIT = props.singleToken && props.singleToken.symbol === tokens_1.MoneyMarketIndex.symbol;
+    var isMMIT = props.singleToken;
     var chainId = useNetwork_1.useNetwork().chainId;
     var styles = colors_1.useColorStyles().styles;
     var _a = react_1.useState(isMMIT ? TradeType.flashMint : TradeType.swap), selectedType = _a[0], setSelectedType = _a[1];
     var paddingX = props.isNarrowVersion ? '16px' : '40px';
     var shouldShowSwap = isMMIT ? false : true;
     var shouldShowFlashMintOption = props.singleToken
-        ? tokens_2.isTokenAvailableForFlashMint(props.singleToken, chainId)
+        ? tokens_1.isTokenAvailableForFlashMint(props.singleToken, chainId)
         : // Currently no FlashMintable tokens on Polygon
             chainId === 137
                 ? true

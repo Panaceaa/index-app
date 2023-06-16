@@ -17,7 +17,7 @@ import {
   Tr,
 } from '@chakra-ui/react'
 
-import { MoneyMarketIndex, Token } from 'constants/tokens'
+import { Token } from 'constants/tokens'
 import { SetComponent } from 'hooks/useTokenComponents'
 
 import Chart, { Position } from './charts/Charts'
@@ -28,7 +28,7 @@ const TokenComponentsTable = (props: {
   isLeveragedToken: boolean
   vAssets?: SetComponent[]
 }) => {
-  const isIcSmmt = props.token.symbol === MoneyMarketIndex.symbol
+  const isIcSmmt = false
   const [amountToDisplay, setAmountToDisplay] = useState<number>(5)
   const showAllComponents = () =>
     setAmountToDisplay(props.components?.length || amountToDisplay)

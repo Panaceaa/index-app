@@ -5,7 +5,7 @@ import { Box, Flex, Text, useBreakpointValue } from '@chakra-ui/react'
 import Page from 'components/page/Page'
 import { getPriceChartData } from 'components/token-page/charts/PriceChartData'
 import QuickTradeContainer from 'components/trade'
-import { IndexToken, MoneyMarketIndex, Token } from 'constants/tokens'
+import { IndexToken, Token } from 'constants/tokens'
 import { useNetwork } from 'hooks/useNetwork'
 import { useTokenComponents } from 'hooks/useTokenComponents'
 import { useTokenSupply } from 'hooks/useTokenSupply'
@@ -108,7 +108,7 @@ const TokenPage = (props: { token: Token; apy?: string }) => {
   )
 
   const backgroundColor = isDarkMode ? colors.icGray3 : colors.icGray1
-  const isMMI = token.symbol === MoneyMarketIndex.symbol
+  const isMMI = false
   const stats = getStatsForToken(token, marketData, currentSupplyFormatted, nav)
 
   return (

@@ -54,14 +54,14 @@ const NavLink = (props: {
   )
 }
 
+//<NavLink href='/products' linkText='Products' textColor={textColor} />
 const NavContent = () => {
   const { colorMode, toggleColorMode } = useColorMode()
   const textColor = colorMode === 'light' ? colors.black : colors.icWhite
   return (
     <Flex align='center' flexDirection={['column', 'column', 'column', 'row']}>
       <NavLink href='/' linkText='Trade' textColor={textColor} />
-      <NavLink href='/products' linkText='Products' textColor={textColor} />
-      <NavLink href='/index' linkText='$INDEX' textColor={textColor} />
+      <NavLink href='/b4b' linkText='B4B' textColor={textColor} />
       <IconButton
         aria-label='Color Theme Switch'
         onClick={toggleColorMode}

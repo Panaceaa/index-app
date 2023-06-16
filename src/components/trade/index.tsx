@@ -3,8 +3,6 @@ import { useState } from 'react'
 import { colors, useColorStyles, useICColorMode } from 'styles/colors'
 
 import { Flex, Text } from '@chakra-ui/react'
-
-import { MoneyMarketIndex } from 'constants/tokens'
 import { useNetwork } from 'hooks/useNetwork'
 import { SlippageProvider, useSlippage } from 'providers/Slippage'
 import { isTokenAvailableForFlashMint } from 'utils/tokens'
@@ -20,7 +18,7 @@ enum TradeType {
 
 const QuickTradeContainer = (props: QuickTradeProps) => {
   const isMMIT =
-    props.singleToken && props.singleToken.symbol === MoneyMarketIndex.symbol
+    props.singleToken
   const { chainId } = useNetwork()
   const { styles } = useColorStyles()
   const [selectedType, setSelectedType] = useState<TradeType>(

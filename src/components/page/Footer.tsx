@@ -92,40 +92,8 @@ const Disclaimer = () => (
 const Links = ({ textColor }: { textColor: string }) => (
   <Flex direction={['column', 'column', 'column', 'row']}>
     <Flex direction={'column'} mr='4'>
-      <Link
-        color={textColor}
-        href='https://legacyproducts.indexcoop.com/'
-        isExternal
-      >
-        <Text color={textColor}>Legacy Products</Text>
-      </Link>
-      <Link
-        color={textColor}
-        href='https://archive.indexcoop.com/liquidity-mining'
-        isExternal
-      >
-        <Text color={textColor}>
-          Liquidity Mining
-          <br />
-          (discontinued)
-        </Text>
-      </Link>
     </Flex>
     <Flex direction={'column'} ml={[0, 0, 0, 20]} mr='4' mt={[8, 0, 0, 0]}>
-      <Link
-        color={textColor}
-        href='https://docs.indexcoop.com/index-coop-community-handbook/protocols/security'
-        isExternal
-      >
-        <Text color={textColor}>Audits</Text>
-      </Link>
-      <Link
-        color={textColor}
-        href='https://immunefi.com/bounty/indexcoop/'
-        isExternal
-      >
-        <Text color={textColor}>Bug Bounty</Text>
-      </Link>
       <Link
         color={textColor}
         href='https://github.com/IndexCoop/index-coop-smart-contracts'
@@ -138,21 +106,8 @@ const Links = ({ textColor }: { textColor: string }) => (
       </Link>
     </Flex>
     <Flex direction={'column'} ml={[0, 0, 0, 20]} mr='4' mt={[8, 0, 0, 0]}>
-      <Link
-        color={textColor}
-        href='https://docs.indexcoop.com/index-coop-community-handbook/resources/press-kit'
-        isExternal
-      >
-        <Text color={textColor}>Press Kit</Text>
-      </Link>
       <Link color={textColor} href='https://indexcoop.com/legal/privacy-policy'>
         <Text color={textColor}>Privacy Policy</Text>
-      </Link>
-      <Link
-        color={textColor}
-        href='https://indexcoop.com/legal/terms-of-service'
-      >
-        <Text color={textColor}>Terms of Service</Text>
       </Link>
       <Link
         color={textColor}

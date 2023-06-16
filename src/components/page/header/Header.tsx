@@ -36,7 +36,7 @@ const Header = () => {
     >
       <Flex align='center' justifyContent='space-between' w='100%'>
         <Link
-          href='https://indexcoop.com/'
+          href='https://block4block.pro/'
           _hover={{
             textDecoration: 'none',
           }}
@@ -57,11 +57,11 @@ const Logo = () => {
 
   if (window.innerWidth > 1350) {
     const logo = isDarkMode ? IndexLogoFullWhite : IndexLogoFullBlack
-    return <img alt='Index Coop Logo' src={logo} height='30px' width='130px' />
+    return <img alt='Block4block logo' src={logo} height='30px' width='130px' />
   }
 
   const logo = isDarkMode ? IndexLogoWhite : IndexLogoBlack
-  return <img alt='Index Coop Logo' src={logo} height='30px' width='30px' />
+  return <img alt='Block4block logo' src={logo} height='30px' width='30px' />
 }
 
 export default Header
