@@ -1,24 +1,13 @@
 import {
-  DefiPulseIndex,
   flashMintIndexesMainnetRedeem,
   flashMintIndexesPolygonRedeem,
   indexNamesMainnet,
   indexNamesPolygon,
-  MoneyMarketIndex,
 } from 'constants/tokens'
 
 import { getTokenListByChain } from './useTradeTokenLists'
 
 describe('getTokenListByChain()', () => {
-  test('returns single token for single token', async () => {
-    const chainId = 1
-    const isFlashMint = false
-    const singleToken = DefiPulseIndex
-    const list = getTokenListByChain(chainId, isFlashMint, singleToken)
-    expect(list.length).toBe(1)
-    expect(list[0]).toBe(DefiPulseIndex)
-  })
-
   test('returns regular list for swap on mainnet', async () => {
     const chainId = 1
     const isFlashMint = false
@@ -56,13 +45,5 @@ describe('getTokenListByChain()', () => {
     const singleToken = undefined
     const flashMintList = getTokenListByChain(chainId, true, singleToken)
     const swapList = getTokenListByChain(chainId, false, singleToken)
-    expect(
-      flashMintList.filter((token) => token.symbol === MoneyMarketIndex.symbol)
-        .length
-    ).toEqual(1)
-    expect(
-      swapList.filter((token) => token.symbol === MoneyMarketIndex.symbol)
-        .length
-    ).toEqual(0)
   })
 })

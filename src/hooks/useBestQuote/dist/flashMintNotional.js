@@ -39,7 +39,6 @@ exports.__esModule = true;
 exports.getEnhancedFlashMintNotionalQuote = void 0;
 var bignumber_1 = require("@ethersproject/bignumber");
 var gas_1 = require("constants/gas");
-var tokens_1 = require("constants/tokens");
 var costs_1 = require("utils/costs");
 var fmNotionalQuote_1 = require("utils/flashMintNotional/fmNotionalQuote");
 var fmNotionalTransaction_1 = require("utils/flashMintNotional/fmNotionalTransaction");
@@ -106,13 +105,5 @@ function getEnhancedFlashMintNotionalQuote(isMinting, inputToken, outputToken, i
 }
 exports.getEnhancedFlashMintNotionalQuote = getEnhancedFlashMintNotionalQuote;
 var isTradableForFlashMintNotional = function (input, output) {
-    if (input.symbol === tokens_1.FIXED_DAI.symbol && output.symbol === tokens_1.DAI.symbol)
-        return true;
-    if (input.symbol === tokens_1.DAI.symbol && output.symbol === tokens_1.FIXED_DAI.symbol)
-        return true;
-    if (input.symbol === tokens_1.FIXED_USDC.symbol && output.symbol === tokens_1.USDC.symbol)
-        return true;
-    if (input.symbol === tokens_1.USDC.symbol && output.symbol === tokens_1.FIXED_USDC.symbol)
-        return true;
     return false;
 };

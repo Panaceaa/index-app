@@ -1,13 +1,9 @@
 import { BigNumber } from 'ethers'
 
 import {
-  Bitcoin2xFlexibleLeverageIndex,
   DAI,
   ETH,
-  Ethereum2xFlexibleLeverageIndex,
-  icETHIndex,
   IndexToken,
-  STETH,
   USDC,
   WETH,
 } from 'constants/tokens'
@@ -190,130 +186,6 @@ describe('getSetTokenAmount()', () => {
     )
 
     expect(setTokenAmount.toString()).toEqual(expectedSetTokenAmount.toString())
-  })
-})
-
-describe('isEligibleTradePair()', () => {
-  test('should return correct eligible status for 🧊ETH - issuing', async () => {
-    const chainId = 1
-    const inputToken = ETH
-    const outputToken = icETHIndex
-    const isIssuance = true
-    const isEligible = isEligibleTradePair(
-      inputToken,
-      outputToken,
-      chainId,
-      isIssuance
-    )
-    expect(isEligible).toEqual(true)
-    const isEligibleStEth = isEligibleTradePair(
-      STETH,
-      outputToken,
-      chainId,
-      isIssuance
-    )
-    expect(isEligibleStEth).toEqual(true)
-    const isEligibleWeth = isEligibleTradePair(
-      WETH,
-      outputToken,
-      chainId,
-      isIssuance
-    )
-    expect(isEligibleWeth).toEqual(false)
-    const isEligibleDai = isEligibleTradePair(
-      DAI,
-      outputToken,
-      chainId,
-      isIssuance
-    )
-    expect(isEligibleDai).toEqual(false)
-    const isEligibleUSDC = isEligibleTradePair(
-      USDC,
-      outputToken,
-      chainId,
-      isIssuance
-    )
-    expect(isEligibleUSDC).toEqual(false)
-  })
-
-  test('should return correct eligible status for 🧊ETH - redeeming', async () => {
-    const chainId = 1
-    const inputToken = icETHIndex
-    const outputToken = ETH
-    const isIssuance = false
-    const isEligible = isEligibleTradePair(
-      inputToken,
-      outputToken,
-      chainId,
-      isIssuance
-    )
-    expect(isEligible).toEqual(true)
-    const isEligibleStEth = isEligibleTradePair(
-      inputToken,
-      STETH,
-      chainId,
-      isIssuance
-    )
-    expect(isEligibleStEth).toEqual(false)
-    const isEligibleWeth = isEligibleTradePair(
-      inputToken,
-      WETH,
-      chainId,
-      isIssuance
-    )
-    expect(isEligibleWeth).toEqual(false)
-    const isEligibleDai = isEligibleTradePair(
-      inputToken,
-      DAI,
-      chainId,
-      isIssuance
-    )
-    expect(isEligibleDai).toEqual(false)
-    const isEligibleUSDC = isEligibleTradePair(
-      inputToken,
-      USDC,
-      chainId,
-      isIssuance
-    )
-    expect(isEligibleUSDC).toEqual(false)
-  })
-})
-
-describe('isEligibleTradePairZeroEx()', () => {
-  test('should return correct eligible status for zeroEx', async () => {
-    const inputToken = ETH
-    // icEth works with EILeveraged only
-    const isEligible = isEligibleTradePairZeroEx(inputToken, icETHIndex)
-    expect(isEligible).toEqual(false)
-    // not eligible - as not approved in contract
-    const isEligibleIndex = isEligibleTradePairZeroEx(inputToken, IndexToken)
-    expect(isEligibleIndex).toEqual(false)
-    // Won't work with ZeroEx, so shouldn't be eligible
-    const isEligibleBtc2xFli = isEligibleTradePairZeroEx(
-      inputToken,
-      Bitcoin2xFlexibleLeverageIndex
-    )
-    expect(isEligibleBtc2xFli).toEqual(false)
-    const isEligibleEth2xFli = isEligibleTradePairZeroEx(
-      inputToken,
-      Ethereum2xFlexibleLeverageIndex
-    )
-    expect(isEligibleEth2xFli).toEqual(false)
-  })
-
-  test('mainnet FLIs are not be eligible for ZeroEx', async () => {
-    const inputToken = ETH
-    // Won't work with the ZeroEx contract, so shouldn't be eligible
-    const isEligibleBtc2xFli = isEligibleTradePairZeroEx(
-      inputToken,
-      Bitcoin2xFlexibleLeverageIndex
-    )
-    expect(isEligibleBtc2xFli).toEqual(false)
-    const isEligibleEth2xFli = isEligibleTradePairZeroEx(
-      inputToken,
-      Ethereum2xFlexibleLeverageIndex
-    )
-    expect(isEligibleEth2xFli).toEqual(false)
   })
 })
 

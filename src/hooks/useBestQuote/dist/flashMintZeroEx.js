@@ -47,21 +47,6 @@ var flashMintZeroExTransaction_1 = require("utils/flashMint/flashMintZeroExTrans
 var gasEstimatooor_1 = require("utils/gasEstimatooor");
 var _1 = require("./");
 function isEligibleTradePairZeroEx(inputToken, outputToken) {
-    if (inputToken.symbol === tokens_1.FIXED_DAI.symbol ||
-        outputToken.symbol === tokens_1.FIXED_DAI.symbol)
-        return false;
-    if (inputToken.symbol === tokens_1.FIXED_USDC.symbol ||
-        outputToken.symbol === tokens_1.FIXED_USDC.symbol)
-        return false;
-    if (inputToken.symbol === tokens_1.Bitcoin2xFlexibleLeverageIndex.symbol ||
-        outputToken.symbol === tokens_1.Bitcoin2xFlexibleLeverageIndex.symbol)
-        return false;
-    if (inputToken.symbol === tokens_1.Ethereum2xFlexibleLeverageIndex.symbol ||
-        outputToken.symbol === tokens_1.Ethereum2xFlexibleLeverageIndex.symbol)
-        return false;
-    if (inputToken.symbol === tokens_1.icETHIndex.symbol ||
-        outputToken.symbol === tokens_1.icETHIndex.symbol)
-        return false;
     if (inputToken.symbol === tokens_1.IndexToken.symbol ||
         outputToken.symbol === tokens_1.IndexToken.symbol)
         return false;

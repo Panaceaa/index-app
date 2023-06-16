@@ -5,7 +5,7 @@ import { JsonRpcProvider, JsonRpcSigner } from '@ethersproject/providers'
 import { FlashMintQuoteProvider } from 'flash-mint-sdk'
 
 import { MAINNET } from 'constants/chains'
-import { MoneyMarketIndex, Token } from 'constants/tokens'
+import { Token } from 'constants/tokens'
 import { getFullCostsInUsd, getGasCostsInUsd } from 'utils/costs'
 import { GasEstimatooor } from 'utils/gasEstimatooor'
 import { getCurrencyTokensForIndex } from 'utils/tokens'
@@ -31,18 +31,6 @@ export async function getEnhancedFlashMintQuote(
   if (chainId !== MAINNET.chainId) return null
   const indexToken = isMinting ? buyToken : sellToken
   const inputOutputToken = isMinting ? sellToken : buyToken
-  // Allow only MMI
-  if (indexToken.symbol !== MoneyMarketIndex.symbol) return null
-  const currencies = getCurrencyTokensForIndex(
-    MoneyMarketIndex,
-    chainId,
-    isMinting
-  )
-  // Allow only supported currencies
-  const isAllowedCurrency =
-    currencies.filter((curr) => curr.symbol === inputOutputToken.symbol)
-      .length > 0
-  if (!isAllowedCurrency) return null
 
   const inputToken = {
     symbol: sellToken.symbol,

@@ -41,14 +41,12 @@ var ethers_1 = require("ethers");
 var bignumber_1 = require("@ethersproject/bignumber");
 var flash_mint_sdk_1 = require("flash-mint-sdk");
 var chains_1 = require("constants/chains");
-var tokens_1 = require("constants/tokens");
 var costs_1 = require("utils/costs");
 var gasEstimatooor_1 = require("utils/gasEstimatooor");
-var tokens_2 = require("utils/tokens");
 var _1 = require("./");
 function getEnhancedFlashMintQuote(isMinting, inputTokenAddress, outputTokenAddress, sellToken, buyToken, indexTokenAmount, sellTokenPrice, nativeTokenPrice, gasPrice, slippage, chainId, provider, signer) {
     return __awaiter(this, void 0, Promise, function () {
-        var indexToken, inputOutputToken, currencies, isAllowedCurrency, inputToken, outputToken, request, quoteProvider, quoteFM, inputOutputAmount, tx, from, transaction, defaultGasEstimate, gasEstimatooor, canFail, gasEstimate, gasCosts, gasCostsInUsd, e_1;
+        var indexToken, inputOutputToken, inputToken, outputToken, request, quoteProvider, quoteFM, inputOutputAmount, tx, from, transaction, defaultGasEstimate, gasEstimatooor, canFail, gasEstimate, gasCosts, gasCostsInUsd, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -57,14 +55,6 @@ function getEnhancedFlashMintQuote(isMinting, inputTokenAddress, outputTokenAddr
                         return [2 /*return*/, null];
                     indexToken = isMinting ? buyToken : sellToken;
                     inputOutputToken = isMinting ? sellToken : buyToken;
-                    // Allow only MMI
-                    if (indexToken.symbol !== tokens_1.MoneyMarketIndex.symbol)
-                        return [2 /*return*/, null];
-                    currencies = tokens_2.getCurrencyTokensForIndex(tokens_1.MoneyMarketIndex, chainId, isMinting);
-                    isAllowedCurrency = currencies.filter(function (curr) { return curr.symbol === inputOutputToken.symbol; })
-                        .length > 0;
-                    if (!isAllowedCurrency)
-                        return [2 /*return*/, null];
                     inputToken = {
                         symbol: sellToken.symbol,
                         decimals: sellToken.decimals,

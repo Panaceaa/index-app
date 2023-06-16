@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { MAINNET } from 'constants/chains'
-import { IndexToken, MoneyMarketIndex, Token } from 'constants/tokens'
+import { IndexToken, Token } from 'constants/tokens'
 import { IndexApi } from 'utils/api/indexApi'
 import { getAddressForToken } from 'utils/tokens'
 
@@ -91,11 +91,6 @@ export const useTokenComponents = (token: Token, isPerpToken = false) => {
 
   useMemo(async () => {
     if (components.length === 0 && vAssets.length === 0) return
-    if (token.symbol === MoneyMarketIndex.symbol) {
-      const nav = await fetchIcSmmtNav()
-      setNav(nav)
-      return
-    }
     setNav(getNetAssetValue(components.concat(vAssets)))
   }, [components, vAssets])
 

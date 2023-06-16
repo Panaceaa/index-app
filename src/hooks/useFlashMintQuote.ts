@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { BigNumber } from '@ethersproject/bignumber'
 
-import { MoneyMarketIndex, Token } from 'constants/tokens'
+import { Token } from 'constants/tokens'
 import { useNetwork } from 'hooks/useNetwork'
 import { useBalanceData } from 'providers/Balances'
 import { GasStation } from 'utils/api/gasStation'
@@ -97,25 +97,7 @@ export const useFlashMintQuote = () => {
       getTokenBalance(inputToken.symbol, chainId) ?? BigNumber.from(0)
 
     const isOptimismNetwork = chainId === 10
-    if (indexToken.symbol === MoneyMarketIndex.symbol) {
-      const gasStation = new GasStation(provider)
-      const gasPrice = await gasStation.getGasPrice()
-      flashMintQuote = await getEnhancedFlashMintQuote(
-        isMinting,
-        inputTokenAddress,
-        outputTokenAddress,
-        inputToken,
-        outputToken,
-        indexTokenAmount,
-        sellTokenPrice,
-        nativeTokenPrice,
-        gasPrice,
-        slippage,
-        chainId,
-        provider,
-        signer
-      )
-    } else if (isOptimismNetwork) {
+    if (isOptimismNetwork) {
       const estimatedQuoteAmount = await getQuote(
         isMinting,
         indexToken,

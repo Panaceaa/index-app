@@ -1,13 +1,10 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { JsonRpcProvider } from '@ethersproject/providers'
-import {
-  getFlashMintLeveragedQuote,
-  ZeroExApi,
+import { ZeroExApi,
 } from 'flash-mint-sdk'
 
 import { DefaultGasLimitFlashMintLeveraged } from 'constants/gas'
 import {
-  eligibleLeveragedExchangeIssuanceTokens,
   Token,
 } from 'constants/tokens'
 import { getFullCostsInUsd, getGasCostsInUsd } from 'utils/costs'
@@ -18,10 +15,6 @@ import { getCurrencyTokensForIndex } from 'utils/tokens'
 
 import { ExchangeIssuanceLeveragedQuote, QuoteType } from './'
 
-/* Determines if the token is eligible for Leveraged Exchange Issuance */
-const isEligibleLeveragedToken = (token: Token) =>
-  eligibleLeveragedExchangeIssuanceTokens.includes(token)
-
 /* Determines if the token pair is eligible for Leveraged Exchange Issuance */
 export const isEligibleTradePair = (
   inputToken: Token,
@@ -31,7 +24,7 @@ export const isEligibleTradePair = (
 ) => {
   const indexToken = isIssuance ? outputToken : inputToken
   const inputOutputToken = isIssuance ? inputToken : outputToken
-  const indexIsEligibleLeveragedToken = isEligibleLeveragedToken(indexToken)
+  const indexIsEligibleLeveragedToken = false
   const supportedTokens = getCurrencyTokensForIndex(
     indexToken,
     chainId,
@@ -79,82 +72,5 @@ export async function getEnhancedFlashMintLeveragedQuote(
     address: outputTokenAddress,
   }
 
-  try {
-    const quoteLeveraged = await getFlashMintLeveragedQuote(
-      inputToken,
-      outputToken,
-      indexTokenAmount,
-      isMinting,
-      slippage,
-      zeroExApi,
-      provider,
-      chainId ?? 1
-    )
-    if (quoteLeveraged) {
-      const { inputOutputTokenAmount } = quoteLeveraged
-      let adjustedQuoteAmount = inputOutputTokenAmount
-      if (inputToken.symbol === 'icETH' || outputToken.symbol === 'icETH') {
-        adjustedQuoteAmount = isMinting
-          ? inputOutputTokenAmount.mul(10001).div(10000)
-          : inputOutputTokenAmount.mul(1000).div(1005)
-      }
-      const tx = await getFlashMintLeveragedTransaction(
-        isMinting,
-        sellToken,
-        buyToken,
-        indexTokenAmount,
-        adjustedQuoteAmount,
-        quoteLeveraged.swapDataDebtCollateral,
-        quoteLeveraged.swapDataPaymentToken,
-        provider,
-        signer,
-        chainId
-      )
-
-      if (!tx) throw new Error('No transaction object')
-
-      // if (req) {
-      //   const accessKey = process.env.REACT_APP_TENDERLY_ACCESS_KEY ?? ''
-      //   const simulator = new TxSimulator(accessKey)
-      //   await simulator.simulate(req)
-      // }
-
-      const defaultGasEstimate = BigNumber.from(
-        DefaultGasLimitFlashMintLeveraged
-      )
-      const gasEstimatooor = new GasEstimatooor(signer, defaultGasEstimate)
-      // We don't want this function to fail for estimates here.
-      // A default will be returned if the tx would fail.
-      const canFail = false
-      const gasEstimate = await gasEstimatooor.estimate(tx, canFail)
-      const gasCosts = gasEstimate.mul(gasPrice)
-      const gasCostsInUsd = getGasCostsInUsd(gasCosts, nativeTokenPrice)
-      return {
-        type: QuoteType.exchangeIssuanceLeveraged,
-        isMinting,
-        inputToken: sellToken,
-        outputToken: buyToken,
-        gas: gasEstimate,
-        gasPrice,
-        gasCosts,
-        gasCostsInUsd,
-        fullCostsInUsd: getFullCostsInUsd(
-          quoteLeveraged.inputOutputTokenAmount,
-          gasEstimate.mul(gasPrice),
-          sellToken.decimals,
-          sellTokenPrice,
-          nativeTokenPrice
-        ),
-        priceImpact: 0,
-        indexTokenAmount,
-        inputOutputTokenAmount: quoteLeveraged.inputOutputTokenAmount,
-        // type specific properties
-        swapDataDebtCollateral: quoteLeveraged.swapDataDebtCollateral,
-        swapDataPaymentToken: quoteLeveraged.swapDataPaymentToken,
-      }
-    }
-  } catch (e) {
-    console.warn('Error generating quote from FlashMintLeveraged', e)
-  }
   return null
 }

@@ -1,14 +1,5 @@
 import {
-  bedBorderLogo,
-  dsethLogo,
-  fixedDaiLogo,
-  fixedUsdcLogo,
-  gmiLogo,
-  gtcEthLogo,
-  icethLogo,
   indexLogo,
-  mmiLogo,
-  wseth2Logo,
   b4bLogo,
 } from 'assets'
 import { TokenContextKeys } from 'providers/MarketData'

@@ -186,52 +186,6 @@ var WETH = {
   addressPolygon: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"
 };
 
-// src/constants/swapdata.ts
-var collateralDebtSwapData = {
-  [InterestCompoundingETHIndex.symbol]: {
-    exchange: 4 /* Curve */,
-    path: ["0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84", ETH.address],
-    fees: [],
-    pool: "0xDC24316b9AE028F1497c275EB9192a3Ea0f67022"
-  }
-};
-var debtCollateralSwapData = {
-  [InterestCompoundingETHIndex.symbol]: {
-    exchange: 4 /* Curve */,
-    path: [ETH.address, "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84"],
-    fees: [],
-    pool: "0xDC24316b9AE028F1497c275EB9192a3Ea0f67022"
-  }
-};
-var inputSwapData = {
-  [InterestCompoundingETHIndex.symbol]: {
-    // icETH only supports ETH as the input token
-    [ETH.symbol]: {
-      exchange: 4 /* Curve */,
-      path: [ETH.address, stETH.address],
-      fees: [],
-      pool: "0xDC24316b9AE028F1497c275EB9192a3Ea0f67022"
-    },
-    [stETH.symbol]: {
-      exchange: 4 /* Curve */,
-      path: [stETH.address],
-      fees: [],
-      pool: "0xDC24316b9AE028F1497c275EB9192a3Ea0f67022"
-    }
-  }
-};
-var outputSwapData = {
-  [InterestCompoundingETHIndex.symbol]: {
-    // icETH only supports ETH as the output token
-    [ETH.symbol]: {
-      exchange: 4 /* Curve */,
-      path: ["0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84", ETH.address],
-      fees: [],
-      pool: "0xDC24316b9AE028F1497c275EB9192a3Ea0f67022"
-    }
-  }
-};
-
 // src/utils/contracts.ts
 import { Contract } from "@ethersproject/contracts";
 
@@ -962,9 +916,6 @@ var getFlashMint4626Contract = (signerOrProvider) => {
 };
 var getFlashMintLeveragedContractForToken = (token, signerOrProvider, chainId = 137 /* Polygon */) => {
   switch (token) {
-    case BTC2xFlexibleLeverageIndex.symbol:
-    case ETH2xFlexibleLeverageIndex.symbol:
-      return getFlashMintLeveragedForCompoundContract(signerOrProvider);
     default:
       return getFlashMintLeveragedContract(signerOrProvider, chainId);
   }
@@ -984,10 +935,6 @@ var getFlashMintZeroExContract = (providerSigner, chainId = 1 /* Mainnet */) => 
 };
 var getFlashMintZeroExContractForToken = (token, providerSigner, chainId = 1 /* Mainnet */) => {
   switch (token) {
-    case DiversifiedStakedETHIndex.symbol:
-    case GitcoinStakedETHIndex.symbol:
-    case wsETH2.symbol:
-      return getIndexFlashMintZeroExContract(providerSigner, chainId);
     default:
       return getFlashMintZeroExContract(providerSigner, chainId);
   }
@@ -1299,17 +1246,6 @@ function getIndexEthIssuanceModule(tokenSymbol) {
 }
 function getEthIssuanceModuleAddress(tokenSymbol) {
   switch (tokenSymbol) {
-    case DiversifiedStakedETHIndex.symbol:
-    case GitcoinStakedETHIndex.symbol:
-    case MoneyMarketIndexToken.symbol:
-    case wsETH2.symbol:
-      return getIndexEthIssuanceModule(tokenSymbol);
-    case BTC2xFlexibleLeverageIndex.symbol:
-    case ETH2xFlexibleLeverageIndex.symbol:
-    case GMIIndex.symbol:
-      return { address: DebtIssuanceModuleAddress, isDebtIssuance: true };
-    case InterestCompoundingETHIndex.symbol:
-    case JPGIndex.symbol:
     case B4BIndex.symbol:
       return { address: DebtIssuanceModuleV2Address, isDebtIssuance: true };
     default:
@@ -1318,11 +1254,6 @@ function getEthIssuanceModuleAddress(tokenSymbol) {
 }
 function getPolygonIssuanceModuleAddress(tokenSymbol) {
   switch (tokenSymbol) {
-    case ETH2xFlexibleLeverageIndexPolygon.symbol:
-    case GMIIndex.symbol:
-    case InverseETHFlexibleLeverageIndex.symbol:
-    case InverseMATICFlexibleLeverageIndex.symbol:
-    case MATIC2xFlexibleLeverageIndex.symbol:
     case B4BIndex.symbol:
       return {
         address: DebtIssuanceModuleV2PolygonAddress,
@@ -2294,50 +2225,9 @@ function getContractType(token) {
     return 2 /* erc4626 */;
   return null;
 }
-
-// src/quote/leveraged/function.ts
-import { BigNumber as BigNumber4 } from "@ethersproject/bignumber";
-function get0xEchangeKey(exchange) {
-  switch (exchange) {
-    case 4 /* Curve */:
-      return "Curve";
-    case 1 /* Quickswap */:
-      return "QuickSwap";
-    case 2 /* Sushiswap */:
-      return "SushiSwap";
-    case 3 /* UniV3 */:
-      return "Uniswap_V3";
-    default:
-      return "";
-  }
-}
-function getIncludedSources(isIcEth) {
-  const curve = get0xEchangeKey(4 /* Curve */);
-  const quickswap = get0xEchangeKey(1 /* Quickswap */);
-  const sushi = get0xEchangeKey(2 /* Sushiswap */);
-  const uniswap = get0xEchangeKey(3 /* UniV3 */);
-  const includedSources = isIcEth ? [curve].toString() : [quickswap, sushi, uniswap].toString();
-  return includedSources;
-}
-async function getLevTokenData(setTokenAddress, setTokenAmount, setTokenSymbol, isIssuance, chainId, provider) {
-  const contract = getFlashMintLeveragedContractForToken(
-    setTokenSymbol,
-    provider,
-    chainId
-  );
-  const flashMint = new FlashMintLeveraged(contract);
-  return await flashMint.getLeveragedTokenData(
-    setTokenAddress,
-    setTokenAmount,
-    isIssuance
-  );
-}
 function getPaymentTokenAddress(paymentTokenAddress, paymentTokenSymbol, isMinting, chainId) {
   if (paymentTokenSymbol === ETH.symbol) {
     return "ETH";
-  }
-  if (paymentTokenSymbol === InterestCompoundingETHIndex.symbol && !isMinting) {
-    return stETH.address;
   }
   if (chainId === 137 /* Polygon */ && paymentTokenSymbol === MATIC.symbol) {
     const WMATIC_ADDRESS = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270";
@@ -2365,99 +2255,8 @@ async function getSwapDataAndPaymentTokenAmount(setTokenSymbol, collateralToken,
     includedSources
   };
   let paymentTokenAmount = isMinting ? collateralShortfall : leftoverCollateral;
-  if (collateralToken !== paymentTokenAddress && setTokenSymbol !== InterestCompoundingETHIndex.symbol) {
-    const result = await getSwapData(
-      isMinting ? issuanceParams : redeemingParams,
-      slippage,
-      chainId,
-      zeroExApi
-    );
-    if (result) {
-      const { swapData, zeroExQuote } = result;
-      swapDataPaymentToken = swapData;
-      paymentTokenAmount = isMinting ? BigNumber4.from(zeroExQuote.sellAmount) : BigNumber4.from(zeroExQuote.buyAmount);
-    }
-  }
-  if (setTokenSymbol === InterestCompoundingETHIndex.symbol) {
-    const outputTokenSymbol = paymentTokenAddress === stETH.address ? stETH.symbol : ETH.symbol;
-    swapDataPaymentToken = isMinting ? inputSwapData[setTokenSymbol][outputTokenSymbol] : outputSwapData[setTokenSymbol][ETH.symbol];
-  }
   return { swapDataPaymentToken, paymentTokenAmount };
 }
-var getFlashMintLeveragedQuote = async (inputToken, outputToken, setTokenAmount, isMinting, slippage, zeroExApi, provider, chainId) => {
-  const setTokenAddress = isMinting ? outputToken.address : inputToken.address;
-  const setTokenSymbol = isMinting ? outputToken.symbol : inputToken.symbol;
-  const isIcEth = setTokenSymbol === InterestCompoundingETHIndex.symbol;
-  const includedSources = getIncludedSources(isIcEth);
-  const leveragedTokenData = await getLevTokenData(
-    setTokenAddress,
-    setTokenAmount,
-    setTokenSymbol,
-    isMinting,
-    chainId,
-    provider
-  );
-  if (leveragedTokenData === null)
-    return null;
-  const debtCollateralResult = isMinting ? await getSwapDataDebtCollateral(
-    leveragedTokenData,
-    includedSources,
-    slippage,
-    chainId,
-    zeroExApi
-  ) : await getSwapDataCollateralDebt(
-    leveragedTokenData,
-    includedSources,
-    slippage,
-    chainId,
-    zeroExApi
-  );
-  if (!debtCollateralResult)
-    return null;
-  const { collateralObtainedOrSold } = debtCollateralResult;
-  let { swapDataDebtCollateral } = debtCollateralResult;
-  if (isIcEth) {
-    swapDataDebtCollateral = isMinting ? debtCollateralSwapData[setTokenSymbol] : collateralDebtSwapData[setTokenSymbol];
-  }
-  const collateralShortfall = leveragedTokenData.collateralAmount.sub(
-    collateralObtainedOrSold
-  );
-  const leftoverCollateral = leveragedTokenData.collateralAmount.sub(
-    collateralObtainedOrSold
-  );
-  const inputOutputTokenAddress = getPaymentTokenAddress(
-    isMinting ? inputToken.address : outputToken.address,
-    isMinting ? inputToken.symbol : outputToken.symbol,
-    isMinting,
-    chainId
-  );
-  const { swapDataPaymentToken, paymentTokenAmount } = await getSwapDataAndPaymentTokenAmount(
-    setTokenSymbol,
-    leveragedTokenData.collateralToken,
-    collateralShortfall,
-    leftoverCollateral,
-    inputOutputTokenAddress,
-    isMinting,
-    slippage,
-    includedSources,
-    zeroExApi,
-    chainId
-  );
-  let inputOutputTokenAmount = paymentTokenAmount;
-  const inputOuputTokenDecimals = isMinting ? inputToken.decimals : outputToken.decimals;
-  inputOutputTokenAmount = slippageAdjustedTokenAmount(
-    inputOutputTokenAmount,
-    inputOuputTokenDecimals,
-    slippage,
-    isMinting
-  );
-  return {
-    swapDataDebtCollateral,
-    swapDataPaymentToken,
-    inputOutputTokenAmount,
-    setTokenAmount
-  };
-};
 
 // src/utils/tokens.ts
 function getAddressForToken(token, chainId) {
@@ -2713,22 +2512,15 @@ var ZeroExApi = class {
 };
 export {
   B4BIndex,
-  BTC2xFlexibleLeverageIndex,
-  BTC2xFlexibleLeverageIndexPolygon,
-  BanklessBEDIndex,
   BasicIssuanceModuleAddress,
   BasicIssuanceModulePolygonAddress,
   DAI,
   DebtIssuanceModuleAddress,
   DebtIssuanceModuleV2Address,
   DebtIssuanceModuleV2PolygonAddress,
-  DefiPulseIndex,
-  DiversifiedStakedETHIndex,
   ERC4626QuoteProvider,
   ERC4626TransactionBuilder,
   ETH,
-  ETH2xFlexibleLeverageIndex,
-  ETH2xFlexibleLeverageIndexPolygon,
   Exchange,
   ExchangeIssuanceLeveragedMainnetAddress,
   ExchangeIssuanceLeveragedPolygonAddress,
@@ -2742,30 +2534,17 @@ export {
   FlashMintWrappedAddress,
   FlashMintZeroEx,
   FlashMintZeroExMainnetAddress,
-  GMIIndex,
-  GitcoinStakedETHIndex,
   IndexDebtIssuanceModuleV2Address,
-  InterestCompoundingETHIndex,
-  InverseBTCFlexibleLeverageIndex,
-  InverseETHFlexibleLeverageIndex,
-  InverseMATICFlexibleLeverageIndex,
-  JPGIndex,
   LeveragedTransactionBuilder,
   MATIC,
   WMATIC,
-  MATIC2xFlexibleLeverageIndex,
-  MetaverseIndex,
-  MoneyMarketIndexToken,
   USDC,
   USDT,
   WETH,
-  Web3DataEconomyIndex,
   WrappedQuoteProvider,
   WrappedTransactionBuilder,
   ZeroExApi,
   ZeroExTransactionBuilder,
-  collateralDebtSwapData,
-  debtCollateralSwapData,
   extractPoolFees,
   getAddressForToken,
   getEchangeFrom0xKey,
@@ -2775,12 +2554,10 @@ export {
   getFlashMintLeveragedContract,
   getFlashMintLeveragedContractForToken,
   getFlashMintLeveragedForCompoundContract,
-  getFlashMintLeveragedQuote,
   getFlashMintWrappedContract,
   getFlashMintZeroExContract,
   getFlashMintZeroExContractForToken,
   getFlashMintZeroExQuote,
-  getIncludedSources,
   getIndexFlashMintZeroExContract,
   getIndexFlashMintZeroExContractAddress,
   getIssuanceComponentSwapData,
@@ -2795,13 +2572,7 @@ export {
   getSwapDataCollateralDebt,
   getSwapDataDebtCollateral,
   getWrapData,
-  inputSwapData,
-  outputSwapData,
-  sETH2,
   slippageAdjustedTokenAmount,
-  stETH,
   swapDataFrom0xQuote,
   wei,
-  wsETH2,
-  wstETH
 };

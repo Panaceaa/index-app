@@ -37,99 +37,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.getEnhancedFlashMintLeveragedQuote = exports.isEligibleTradePair = void 0;
-var bignumber_1 = require("@ethersproject/bignumber");
-var flash_mint_sdk_1 = require("flash-mint-sdk");
-var gas_1 = require("constants/gas");
-var tokens_1 = require("constants/tokens");
-var costs_1 = require("utils/costs");
-var flashMintLeveragedTransaction_1 = require("utils/flashMint/flashMintLeveragedTransaction");
-var gasEstimatooor_1 = require("utils/gasEstimatooor");
-var tokens_2 = require("utils/tokens");
-var _1 = require("./");
-/* Determines if the token is eligible for Leveraged Exchange Issuance */
-var isEligibleLeveragedToken = function (token) {
-    return tokens_1.eligibleLeveragedExchangeIssuanceTokens.includes(token);
-};
+var tokens_1 = require("utils/tokens");
 /* Determines if the token pair is eligible for Leveraged Exchange Issuance */
 exports.isEligibleTradePair = function (inputToken, outputToken, chainId, isIssuance) {
     var indexToken = isIssuance ? outputToken : inputToken;
     var inputOutputToken = isIssuance ? inputToken : outputToken;
-    var indexIsEligibleLeveragedToken = isEligibleLeveragedToken(indexToken);
-    var supportedTokens = tokens_2.getCurrencyTokensForIndex(indexToken, chainId, isIssuance);
+    var indexIsEligibleLeveragedToken = false;
+    var supportedTokens = tokens_1.getCurrencyTokensForIndex(indexToken, chainId, isIssuance);
     var inputOutputTokenIsSupported = supportedTokens.filter(function (token) { return token.symbol === inputOutputToken.symbol; })
         .length > 0;
     return indexIsEligibleLeveragedToken && inputOutputTokenIsSupported;
 };
 function getEnhancedFlashMintLeveragedQuote(isMinting, inputTokenAddress, outputTokenAddress, inputTokenBalance, sellToken, buyToken, indexTokenAmount, sellTokenPrice, nativeTokenPrice, gasPrice, slippage, chainId, provider, zeroExApi, signer) {
     return __awaiter(this, void 0, Promise, function () {
-        var tokenEligibleForLeveragedEI, inputToken, outputToken, quoteLeveraged, inputOutputTokenAmount, adjustedQuoteAmount, tx, defaultGasEstimate, gasEstimatooor, canFail, gasEstimate, gasCosts, gasCostsInUsd, e_1;
+        var tokenEligibleForLeveragedEI, inputToken, outputToken;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    tokenEligibleForLeveragedEI = exports.isEligibleTradePair(sellToken, buyToken, chainId, isMinting);
-                    if (!tokenEligibleForLeveragedEI)
-                        return [2 /*return*/, null];
-                    inputToken = {
-                        symbol: sellToken.symbol,
-                        decimals: sellToken.decimals,
-                        address: inputTokenAddress
-                    };
-                    outputToken = {
-                        symbol: buyToken.symbol,
-                        decimals: buyToken.decimals,
-                        address: outputTokenAddress
-                    };
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 6, , 7]);
-                    return [4 /*yield*/, flash_mint_sdk_1.getFlashMintLeveragedQuote(inputToken, outputToken, indexTokenAmount, isMinting, slippage, zeroExApi, provider, chainId !== null && chainId !== void 0 ? chainId : 1)];
-                case 2:
-                    quoteLeveraged = _a.sent();
-                    if (!quoteLeveraged) return [3 /*break*/, 5];
-                    inputOutputTokenAmount = quoteLeveraged.inputOutputTokenAmount;
-                    adjustedQuoteAmount = inputOutputTokenAmount;
-                    if (inputToken.symbol === 'icETH' || outputToken.symbol === 'icETH') {
-                        adjustedQuoteAmount = isMinting
-                            ? inputOutputTokenAmount.mul(10001).div(10000)
-                            : inputOutputTokenAmount.mul(1000).div(1005);
-                    }
-                    return [4 /*yield*/, flashMintLeveragedTransaction_1.getFlashMintLeveragedTransaction(isMinting, sellToken, buyToken, indexTokenAmount, adjustedQuoteAmount, quoteLeveraged.swapDataDebtCollateral, quoteLeveraged.swapDataPaymentToken, provider, signer, chainId)];
-                case 3:
-                    tx = _a.sent();
-                    if (!tx)
-                        throw new Error('No transaction object');
-                    defaultGasEstimate = bignumber_1.BigNumber.from(gas_1.DefaultGasLimitFlashMintLeveraged);
-                    gasEstimatooor = new gasEstimatooor_1.GasEstimatooor(signer, defaultGasEstimate);
-                    canFail = false;
-                    return [4 /*yield*/, gasEstimatooor.estimate(tx, canFail)];
-                case 4:
-                    gasEstimate = _a.sent();
-                    gasCosts = gasEstimate.mul(gasPrice);
-                    gasCostsInUsd = costs_1.getGasCostsInUsd(gasCosts, nativeTokenPrice);
-                    return [2 /*return*/, {
-                            type: _1.QuoteType.exchangeIssuanceLeveraged,
-                            isMinting: isMinting,
-                            inputToken: sellToken,
-                            outputToken: buyToken,
-                            gas: gasEstimate,
-                            gasPrice: gasPrice,
-                            gasCosts: gasCosts,
-                            gasCostsInUsd: gasCostsInUsd,
-                            fullCostsInUsd: costs_1.getFullCostsInUsd(quoteLeveraged.inputOutputTokenAmount, gasEstimate.mul(gasPrice), sellToken.decimals, sellTokenPrice, nativeTokenPrice),
-                            priceImpact: 0,
-                            indexTokenAmount: indexTokenAmount,
-                            inputOutputTokenAmount: quoteLeveraged.inputOutputTokenAmount,
-                            // type specific properties
-                            swapDataDebtCollateral: quoteLeveraged.swapDataDebtCollateral,
-                            swapDataPaymentToken: quoteLeveraged.swapDataPaymentToken
-                        }];
-                case 5: return [3 /*break*/, 7];
-                case 6:
-                    e_1 = _a.sent();
-                    console.warn('Error generating quote from FlashMintLeveraged', e_1);
-                    return [3 /*break*/, 7];
-                case 7: return [2 /*return*/, null];
-            }
+            tokenEligibleForLeveragedEI = exports.isEligibleTradePair(sellToken, buyToken, chainId, isMinting);
+            if (!tokenEligibleForLeveragedEI)
+                return [2 /*return*/, null];
+            inputToken = {
+                symbol: sellToken.symbol,
+                decimals: sellToken.decimals,
+                address: inputTokenAddress
+            };
+            outputToken = {
+                symbol: buyToken.symbol,
+                decimals: buyToken.decimals,
+                address: outputTokenAddress
+            };
+            return [2 /*return*/, null];
         });
     });
 }

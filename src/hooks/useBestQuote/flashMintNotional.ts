@@ -2,7 +2,7 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { JsonRpcProvider } from '@ethersproject/providers'
 
 import { DefaultGasLimitFlashMintNotional } from 'constants/gas'
-import { DAI, FIXED_DAI, FIXED_USDC, Token, USDC } from 'constants/tokens'
+import { DAI, Token, USDC } from 'constants/tokens'
 import { getFullCostsInUsd, getGasCostsInUsd } from 'utils/costs'
 import { getFlashMintNotionalQuote } from 'utils/flashMintNotional/fmNotionalQuote'
 import { getFlashMintNotionalTransaction } from 'utils/flashMintNotional/fmNotionalTransaction'
@@ -103,13 +103,5 @@ export async function getEnhancedFlashMintNotionalQuote(
 }
 
 const isTradableForFlashMintNotional = (input: Token, output: Token) => {
-  if (input.symbol === FIXED_DAI.symbol && output.symbol === DAI.symbol)
-    return true
-  if (input.symbol === DAI.symbol && output.symbol === FIXED_DAI.symbol)
-    return true
-  if (input.symbol === FIXED_USDC.symbol && output.symbol === USDC.symbol)
-    return true
-  if (input.symbol === USDC.symbol && output.symbol === FIXED_USDC.symbol)
-    return true
   return false
 }
