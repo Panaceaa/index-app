@@ -1,4 +1,4 @@
-import { ETH, MetaverseIndex } from 'constants/tokens'
+import { ETH, B4BIndex } from 'constants/tokens'
 import { toWei } from 'utils'
 import { LocalhostProvider, SignerAccount0 } from 'utils/test-utils'
 
@@ -15,7 +15,7 @@ describe('getFlashMintZeroExTransaction()', () => {
   it('should return null if no signer is provided', async () => {
     const isMinting = true
     const inputToken = ETH
-    const outputToken = MetaverseIndex
+    const outputToken = B4BIndex
     const indexTokenAmount = toWei(1)
 
     const inputOutputTokenAmount = toWei('0.1')
@@ -38,7 +38,7 @@ describe('getFlashMintZeroExTransaction()', () => {
   it('should return null if no provider is present', async () => {
     const isMinting = true
     const inputToken = ETH
-    const outputToken = MetaverseIndex
+    const outputToken = B4BIndex
     const indexTokenAmount = toWei(1)
 
     const inputOutputTokenAmount = toWei('0.1')
@@ -61,7 +61,7 @@ describe('getFlashMintZeroExTransaction()', () => {
   it('should return null if ouput token address is undefined', async () => {
     const isMinting = true
     const inputToken = ETH
-    const outputToken = MetaverseIndex
+    const outputToken = B4BIndex
     const indexTokenAmount = toWei(1)
 
     const inputOutputTokenAmount = toWei('0.1')
@@ -83,7 +83,7 @@ describe('getFlashMintZeroExTransaction()', () => {
 
   it('should return null if input token address is undefined', async () => {
     const isMinting = false
-    const inputToken = MetaverseIndex
+    const inputToken = B4BIndex
     const outputToken = ETH
     const indexTokenAmount = toWei(1)
 
@@ -108,7 +108,7 @@ describe('getFlashMintZeroExTransaction()', () => {
     const chainId = 1
     const isMinting = true
     const inputToken = ETH
-    const outputToken = MetaverseIndex
+    const outputToken = B4BIndex
     const indexTokenAmount = toWei(1)
 
     const inputOutputTokenAmount = toWei('0.1')

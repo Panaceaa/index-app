@@ -114,18 +114,6 @@ describe('getCurrencyTokensForIndex()', function () {
         var chainId, token, defaultTokens, currencyTokens;
         return __generator(this, function (_a) {
             chainId = 1;
-            token = tokens_1.DefiPulseIndex;
-            defaultTokens = tokens_2.getCurrencyTokens(chainId);
-            currencyTokens = tokens_2.getCurrencyTokensForIndex(token, chainId, true);
-            expect(currencyTokens.length).toEqual(defaultTokens.length);
-            expect(currencyTokens).toEqual(defaultTokens);
-            return [2 /*return*/];
-        });
-    }); });
-    test('returns default currency tokens', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var chainId, token, defaultTokens, currencyTokens;
-        return __generator(this, function (_a) {
-            chainId = 1;
             token = tokens_1.B4BIndex;
             defaultTokens = tokens_2.getCurrencyTokens(chainId);
             currencyTokens = tokens_2.getCurrencyTokensForIndex(token, chainId, true);
@@ -143,125 +131,6 @@ describe('getCurrencyTokensForIndex()', function () {
             currencyTokens = tokens_2.getCurrencyTokensForIndex(token, chainId, true);
             expect(currencyTokens.length).toEqual(defaultTokens.length);
             expect(currencyTokens).toEqual(defaultTokens);
-            return [2 /*return*/];
-        });
-    }); });
-    test('returns DAI only for FIXED-DAI', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var chainId, token, currencyTokens;
-        return __generator(this, function (_a) {
-            chainId = 1;
-            token = tokens_1.FIXED_DAI;
-            currencyTokens = tokens_2.getCurrencyTokensForIndex(token, chainId, true);
-            expect(currencyTokens.length).toEqual(1);
-            expect(currencyTokens).toEqual([tokens_1.DAI]);
-            return [2 /*return*/];
-        });
-    }); });
-    test('returns USDC only for FIXED-USDC', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var chainId, token, currencyTokens;
-        return __generator(this, function (_a) {
-            chainId = 1;
-            token = tokens_1.FIXED_USDC;
-            currencyTokens = tokens_2.getCurrencyTokensForIndex(token, chainId, true);
-            expect(currencyTokens.length).toEqual(1);
-            expect(currencyTokens).toEqual([tokens_1.USDC]);
-            return [2 /*return*/];
-        });
-    }); });
-    test('returns correct currency tokens for icETH', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var chainId, isMinting, token, currencyTokens;
-        return __generator(this, function (_a) {
-            chainId = 1;
-            isMinting = true;
-            token = tokens_1.icETHIndex;
-            currencyTokens = tokens_2.getCurrencyTokensForIndex(token, chainId, isMinting);
-            expect(currencyTokens.length).toEqual(2);
-            expect(currencyTokens).toEqual([tokens_1.ETH, tokens_1.STETH]);
-            return [2 /*return*/];
-        });
-    }); });
-    test('returns correct currency tokens for icETH - when redeeming', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var chainId, isMinting, token, currencyTokens;
-        return __generator(this, function (_a) {
-            chainId = 1;
-            isMinting = false;
-            token = tokens_1.icETHIndex;
-            currencyTokens = tokens_2.getCurrencyTokensForIndex(token, chainId, isMinting);
-            expect(currencyTokens.length).toEqual(1);
-            expect(currencyTokens).toEqual([tokens_1.ETH]);
-            return [2 /*return*/];
-        });
-    }); });
-    test('returns correct currency tokens for dsETH', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var chainId, token, requiredTokens, currencyTokens, _loop_1, _i, requiredTokens_1, requiredToken;
-        return __generator(this, function (_a) {
-            chainId = 1;
-            token = tokens_1.DiversifiedStakedETHIndex;
-            requiredTokens = [
-                'ETH',
-                'WETH',
-                'stETH',
-                'wstETH',
-                'rETH',
-                'sETH2',
-                'USDC',
-            ];
-            currencyTokens = tokens_2.getCurrencyTokensForIndex(token, chainId, true);
-            expect(currencyTokens.length).toEqual(requiredTokens.length);
-            _loop_1 = function (requiredToken) {
-                expect(currencyTokens.filter(function (currency) { return currency.symbol === requiredToken; })
-                    .length).toEqual(1);
-            };
-            for (_i = 0, requiredTokens_1 = requiredTokens; _i < requiredTokens_1.length; _i++) {
-                requiredToken = requiredTokens_1[_i];
-                _loop_1(requiredToken);
-            }
-            return [2 /*return*/];
-        });
-    }); });
-    test('returns correct currency tokens for gtcETH', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var chainId, token, requiredTokens, currencyTokens, _loop_2, _i, requiredTokens_2, requiredToken;
-        return __generator(this, function (_a) {
-            chainId = 1;
-            token = tokens_1.GitcoinStakedETHIndex;
-            requiredTokens = [
-                'ETH',
-                'WETH',
-                'stETH',
-                'wstETH',
-                'rETH',
-                'sETH2',
-                'USDC',
-            ];
-            currencyTokens = tokens_2.getCurrencyTokensForIndex(token, chainId, true);
-            expect(currencyTokens.length).toEqual(requiredTokens.length);
-            _loop_2 = function (requiredToken) {
-                expect(currencyTokens.filter(function (currency) { return currency.symbol === requiredToken; })
-                    .length).toEqual(1);
-            };
-            for (_i = 0, requiredTokens_2 = requiredTokens; _i < requiredTokens_2.length; _i++) {
-                requiredToken = requiredTokens_2[_i];
-                _loop_2(requiredToken);
-            }
-            return [2 /*return*/];
-        });
-    }); });
-    test('returns correct currency tokens for gtcETH', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var chainId, token, requiredTokens, currencyTokens, _loop_3, _i, requiredTokens_3, requiredToken;
-        return __generator(this, function (_a) {
-            chainId = 1;
-            token = tokens_1.MoneyMarketIndex;
-            requiredTokens = ['DAI', 'USDC', 'USDT', 'WETH'];
-            currencyTokens = tokens_2.getCurrencyTokensForIndex(token, chainId, true);
-            expect(currencyTokens.length).toEqual(requiredTokens.length);
-            _loop_3 = function (requiredToken) {
-                expect(currencyTokens.filter(function (currency) { return currency.symbol === requiredToken; })
-                    .length).toEqual(1);
-            };
-            for (_i = 0, requiredTokens_3 = requiredTokens; _i < requiredTokens_3.length; _i++) {
-                requiredToken = requiredTokens_3[_i];
-                _loop_3(requiredToken);
-            }
             return [2 /*return*/];
         });
     }); });
@@ -305,30 +174,10 @@ describe('getNativeToken()', function () {
 });
 describe('isLeveragedToken()', function () {
     test('should return false for non leveraged tokens', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var bed, dpi, dsEth, mvi, b4b;
+        var b4b;
         return __generator(this, function (_a) {
-            bed = tokens_2.isLeveragedToken(tokens_1.BedIndex);
-            dpi = tokens_2.isLeveragedToken(tokens_1.DefiPulseIndex);
-            dsEth = tokens_2.isLeveragedToken(tokens_1.DiversifiedStakedETHIndex);
-            mvi = tokens_2.isLeveragedToken(tokens_1.MetaverseIndex);
             b4b = tokens_2.isLeveragedToken(tokens_1.B4BIndex);
-            expect(bed).toBe(false);
-            expect(dpi).toBe(false);
-            expect(dsEth).toBe(false);
-            expect(mvi).toBe(false);
             expect(b4b).toBe(false);
-            return [2 /*return*/];
-        });
-    }); });
-    test('should return true for leveraged tokens', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var btc2xFli, eth2xFli, icEth;
-        return __generator(this, function (_a) {
-            btc2xFli = tokens_2.isLeveragedToken(tokens_1.Bitcoin2xFlexibleLeverageIndex);
-            eth2xFli = tokens_2.isLeveragedToken(tokens_1.Ethereum2xFlexibleLeverageIndex);
-            icEth = tokens_2.isLeveragedToken(tokens_1.icETHIndex);
-            expect(btc2xFli).toBe(true);
-            expect(eth2xFli).toBe(true);
-            expect(icEth).toBe(true);
             return [2 /*return*/];
         });
     }); });

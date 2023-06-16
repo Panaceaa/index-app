@@ -7,18 +7,8 @@ import {
 } from 'react'
 
 import {
-  BedIndex,
-  Bitcoin2xFlexibleLeverageIndex,
-  DefiPulseIndex,
-  DiversifiedStakedETHIndex,
   ETH,
-  Ethereum2xFlexibleLeverageIndex,
-  GitcoinStakedETHIndex,
-  GmiIndex,
-  icETHIndex,
   IndexToken,
-  MetaverseIndex,
-  MoneyMarketIndex,
   Token,
   B4BIndex,
 } from 'constants/tokens'
@@ -80,26 +70,6 @@ export const MarketDataProvider = (props: { children: any }) => {
 
   const selectMarketDataByToken = (token: Token) => {
     switch (token) {
-      case DefiPulseIndex:
-        return dpiMarketData
-      case DiversifiedStakedETHIndex:
-        return dsEthMarketData
-      case GitcoinStakedETHIndex:
-        return gtcEthMarketData
-      case MetaverseIndex:
-        return mviMarketData
-      case BedIndex:
-        return bedMarketData
-      case Ethereum2xFlexibleLeverageIndex:
-        return ethFliMarketData
-      case Bitcoin2xFlexibleLeverageIndex:
-        return btcFliMarketData
-      case icETHIndex:
-        return icEthMarketData
-      case GmiIndex:
-        return gmiMarketData
-      case MoneyMarketIndex:
-        return mmiMarketData
       case B4BIndex:
         return b4bMarketData
       default:
@@ -111,28 +81,8 @@ export const MarketDataProvider = (props: { children: any }) => {
     token: Token
   ): TokenMarketDataValues | null => {
     switch (token) {
-      case DefiPulseIndex:
-        return dpiMarketData
-      case DiversifiedStakedETHIndex:
-        return dsEthMarketData
-      case GitcoinStakedETHIndex:
-        return gtcEthMarketData
-      case MetaverseIndex:
-        return mviMarketData
-      case BedIndex:
-        return bedMarketData
-      case Ethereum2xFlexibleLeverageIndex:
-        return ethFliMarketData
-      case Bitcoin2xFlexibleLeverageIndex:
-        return btcFliMarketData
-      case icETHIndex:
-        return icEthMarketData
       case IndexToken:
         return indexMarketData
-      case GmiIndex:
-        return gmiMarketData
-      case MoneyMarketIndex:
-        return mmiMarketData
       case B4BIndex:
         return b4bMarketData
       default:
@@ -144,36 +94,12 @@ export const MarketDataProvider = (props: { children: any }) => {
     const marketData = await Promise.all([
       fetchHistoricalTokenMarketData(ETH.coingeckoId),
       fetchHistoricalTokenMarketData(IndexToken.coingeckoId),
-      fetchHistoricalTokenMarketData(DefiPulseIndex.coingeckoId),
-      fetchHistoricalTokenMarketData(MetaverseIndex.coingeckoId),
-      fetchHistoricalTokenMarketData(BedIndex.coingeckoId),
-      fetchHistoricalTokenMarketData(
-        Ethereum2xFlexibleLeverageIndex.coingeckoId
-      ),
-      fetchHistoricalTokenMarketData(
-        Bitcoin2xFlexibleLeverageIndex.coingeckoId
-      ),
-      fetchHistoricalTokenMarketData(icETHIndex.coingeckoId),
-      fetchHistoricalTokenMarketData(GmiIndex.coingeckoId),
-      fetchHistoricalTokenMarketData(DiversifiedStakedETHIndex.coingeckoId),
-      fetchHistoricalTokenMarketData(GitcoinStakedETHIndex.coingeckoId),
-      fetchHistoricalTokenMarketData(MoneyMarketIndex.coingeckoId),
       fetchHistoricalTokenMarketData(B4BIndex.coingeckoId),
     ])
 
     setEthMarketData(marketData[0])
     setIndexMarketData(marketData[1])
-    setDpiMarketData(marketData[2])
-    setMviMarketData(marketData[3])
-    setBedMarketData(marketData[4])
-    setEthFliMarketData(marketData[5])
-    setBtcFliMarketData(marketData[6])
-    setIcEthMarketData(marketData[7])
-    setGmiMarketData(marketData[8])
-    setDsEthMarketData(marketData[9])
-    setGtcEthMarketData(marketData[10])
-    setMmiMarketData(marketData[11])
-    setb4bMarketData(marketData[12])
+    setb4bMarketData(marketData[2])
   }, [])
 
   useEffect(() => {
@@ -188,15 +114,6 @@ export const MarketDataProvider = (props: { children: any }) => {
         selectMarketDataByToken,
         eth: ethMarketData,
         index: indexMarketData,
-        dpi: dpiMarketData,
-        gmi: gmiMarketData,
-        gtceth: gtcEthMarketData,
-        mmi: mmiMarketData,
-        mvi: mviMarketData,
-        bed: bedMarketData,
-        ethfli: ethFliMarketData,
-        btcfli: btcFliMarketData,
-        iceth: icEthMarketData,
         b4b: b4bMarketData,
       }}
     >
